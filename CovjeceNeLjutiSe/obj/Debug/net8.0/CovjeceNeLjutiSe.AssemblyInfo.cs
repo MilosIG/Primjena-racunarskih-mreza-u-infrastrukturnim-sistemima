@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CovjeceNeLjutiSe")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5abf29ee57469424acfbd5d34c854c72bd465086")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+44979508bddc38e6668c3773f01eb2e05587e86a")]
 [assembly: System.Reflection.AssemblyProductAttribute("CovjeceNeLjutiSe")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CovjeceNeLjutiSe")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

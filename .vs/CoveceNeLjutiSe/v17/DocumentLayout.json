@@ -1,13 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\",
+  "WorkspaceRootPath": "C:\\Users\\pesic\\OneDrive\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{100A8F42-6204-47C0-8933-356F042BD6E8}|Server\\Server.csproj|c:\\users\\lenovo\\documents\\github\\primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E076BC46-FAA1-4E22-A258-8DC71F3E05FF}|Klijent\\Klijent.csproj|c:\\users\\pesic\\onedrive\\documents\\github\\primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\klijent\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E076BC46-FAA1-4E22-A258-8DC71F3E05FF}|Klijent\\Klijent.csproj|solutionrelative:klijent\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{100A8F42-6204-47C0-8933-356F042BD6E8}|Server\\Server.csproj|c:\\users\\pesic\\onedrive\\documents\\github\\primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{100A8F42-6204-47C0-8933-356F042BD6E8}|Server\\Server.csproj|solutionrelative:server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{100A8F42-6204-47C0-8933-356F042BD6E8}|Server\\Server.csproj|c:\\users\\lenovo\\documents\\github\\primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\server\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{100A8F42-6204-47C0-8933-356F042BD6E8}|Server\\Server.csproj|c:\\users\\pesic\\onedrive\\documents\\github\\primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\server\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{100A8F42-6204-47C0-8933-356F042BD6E8}|Server\\Server.csproj|solutionrelative:server\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -24,9 +28,22 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\pesic\\OneDrive\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Klijent\\Program.cs",
+              "RelativeDocumentMoniker": "Klijent\\Program.cs",
+              "ToolTip": "C:\\Users\\pesic\\OneDrive\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Klijent\\Program.cs",
+              "RelativeToolTip": "Klijent\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T22:29:52.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\pesic\\OneDrive\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\Program.cs",
               "RelativeDocumentMoniker": "Server\\Program.cs",
-              "ToolTip": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\Program.cs",
+              "ToolTip": "C:\\Users\\pesic\\OneDrive\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\Program.cs",
               "RelativeToolTip": "Server\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -35,16 +52,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "GameManager.cs",
-              "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\GameManager.cs",
+              "DocumentMoniker": "C:\\Users\\pesic\\OneDrive\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\GameManager.cs",
               "RelativeDocumentMoniker": "Server\\GameManager.cs",
-              "ToolTip": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\GameManager.cs",
+              "ToolTip": "C:\\Users\\pesic\\OneDrive\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\GameManager.cs",
               "RelativeToolTip": "Server\\GameManager.cs",
               "ViewState": "AgIAAGcAAAAAAAAAAAAwwH0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T18:05:31.862Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-03T18:05:31.862Z"
             }
           ]
         }

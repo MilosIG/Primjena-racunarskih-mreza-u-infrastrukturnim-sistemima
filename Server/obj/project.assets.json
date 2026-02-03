@@ -27,23 +27,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Lenovo\\.nuget\\packages\\": {},
+    "C:\\Users\\pesic\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\Server.csproj",
+      "projectUniqueName": "C:\\Users\\pesic\\OneDrive\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\Server.csproj",
       "projectName": "Server",
-      "projectPath": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\Server.csproj",
-      "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\obj\\",
+      "projectPath": "C:\\Users\\pesic\\OneDrive\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\Server.csproj",
+      "packagesPath": "C:\\Users\\pesic\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\pesic\\OneDrive\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\pesic\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -52,15 +52,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj": {
-              "projectPath": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj"
+            "C:\\Users\\pesic\\OneDrive\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj": {
+              "projectPath": "C:\\Users\\pesic\\OneDrive\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj"
             }
           }
         }
@@ -96,7 +95,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.309/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
