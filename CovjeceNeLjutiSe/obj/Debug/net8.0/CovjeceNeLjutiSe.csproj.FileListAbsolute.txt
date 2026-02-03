@@ -9,3 +9,15 @@ C:\Users\Lenovo\Desktop\Projekat\Projekat\CovjeceNeLjutiSe\obj\Debug\net8.0\Covj
 C:\Users\Lenovo\Desktop\Projekat\Projekat\CovjeceNeLjutiSe\obj\Debug\net8.0\refint\CovjeceNeLjutiSe.dll
 C:\Users\Lenovo\Desktop\Projekat\Projekat\CovjeceNeLjutiSe\obj\Debug\net8.0\CovjeceNeLjutiSe.pdb
 C:\Users\Lenovo\Desktop\Projekat\Projekat\CovjeceNeLjutiSe\obj\Debug\net8.0\ref\CovjeceNeLjutiSe.dll
+C:\Users\Lenovo\Documents\GitHub\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\CovjeceNeLjutiSe\bin\Debug\net8.0\CovjeceNeLjutiSe.deps.json
+C:\Users\Lenovo\Documents\GitHub\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\CovjeceNeLjutiSe\bin\Debug\net8.0\CovjeceNeLjutiSe.dll
+C:\Users\Lenovo\Documents\GitHub\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\CovjeceNeLjutiSe\bin\Debug\net8.0\CovjeceNeLjutiSe.pdb
+C:\Users\Lenovo\Documents\GitHub\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\CovjeceNeLjutiSe\obj\Debug\net8.0\CovjeceNeLjutiSe.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lenovo\Documents\GitHub\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\CovjeceNeLjutiSe\obj\Debug\net8.0\CovjeceNeLjutiSe.AssemblyInfoInputs.cache
+C:\Users\Lenovo\Documents\GitHub\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\CovjeceNeLjutiSe\obj\Debug\net8.0\CovjeceNeLjutiSe.AssemblyInfo.cs
+C:\Users\Lenovo\Documents\GitHub\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\CovjeceNeLjutiSe\obj\Debug\net8.0\CovjeceNeLjutiSe.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Documents\GitHub\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\CovjeceNeLjutiSe\obj\Debug\net8.0\CovjeceNeLjutiSe.sourcelink.json
+C:\Users\Lenovo\Documents\GitHub\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\CovjeceNeLjutiSe\obj\Debug\net8.0\CovjeceNeLjutiSe.dll
+C:\Users\Lenovo\Documents\GitHub\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\CovjeceNeLjutiSe\obj\Debug\net8.0\refint\CovjeceNeLjutiSe.dll
+C:\Users\Lenovo\Documents\GitHub\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\CovjeceNeLjutiSe\obj\Debug\net8.0\CovjeceNeLjutiSe.pdb
+C:\Users\Lenovo\Documents\GitHub\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\CovjeceNeLjutiSe\obj\Debug\net8.0\ref\CovjeceNeLjutiSe.dll

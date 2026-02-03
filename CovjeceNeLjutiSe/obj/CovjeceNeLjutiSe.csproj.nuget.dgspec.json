@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj": {}
+    "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj": {
+    "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj",
+        "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj",
         "projectName": "CovjeceNeLjutiSe",
-        "projectPath": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj",
+        "projectPath": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj",
         "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\obj\\",
+        "outputPath": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

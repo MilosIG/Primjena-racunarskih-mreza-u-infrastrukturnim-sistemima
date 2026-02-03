@@ -1,3 +1,13 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using CovjeceNeLjutiSe.Models;
+namespace Server
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Server pokrenut...");
+            // tvoj kod
+        }
+    }
+}

@@ -1,25 +1,29 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\",
+  "WorkspaceRootPath": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{100A8F42-6204-47C0-8933-356F042BD6E8}|Server\\Server.csproj|c:\\users\\lenovo\\desktop\\projekat\\projekat\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{100A8F42-6204-47C0-8933-356F042BD6E8}|Server\\Server.csproj|c:\\users\\lenovo\\documents\\github\\primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{100A8F42-6204-47C0-8933-356F042BD6E8}|Server\\Server.csproj|solutionrelative:server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|c:\\users\\lenovo\\desktop\\projekat\\projekat\\covjeceneljutise\\models\\move.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|solutionrelative:covjeceneljutise\\models\\move.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E076BC46-FAA1-4E22-A258-8DC71F3E05FF}|Klijent\\Klijent.csproj|c:\\users\\lenovo\\documents\\github\\primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\klijent\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E076BC46-FAA1-4E22-A258-8DC71F3E05FF}|Klijent\\Klijent.csproj|solutionrelative:klijent\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|c:\\users\\lenovo\\desktop\\projekat\\projekat\\covjeceneljutise\\models\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|solutionrelative:covjeceneljutise\\models\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|c:\\users\\lenovo\\desktop\\projekat\\projekat\\covjeceneljutise\\models\\figure.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|c:\\users\\lenovo\\documents\\github\\primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\covjeceneljutise\\models\\figure.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|solutionrelative:covjeceneljutise\\models\\figure.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|c:\\users\\lenovo\\desktop\\projekat\\projekat\\covjeceneljutise\\models\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|c:\\users\\lenovo\\documents\\github\\primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\covjeceneljutise\\models\\move.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|solutionrelative:covjeceneljutise\\models\\move.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|c:\\users\\lenovo\\documents\\github\\primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\covjeceneljutise\\models\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|solutionrelative:covjeceneljutise\\models\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|c:\\users\\lenovo\\documents\\github\\primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\covjeceneljutise\\models\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6888A7EC-B3E8-4D61-97BD-0F09EB689D8A}|CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj|solutionrelative:covjeceneljutise\\models\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -30,72 +34,81 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Move.cs",
-              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\Models\\Move.cs",
-              "RelativeDocumentMoniker": "CovjeceNeLjutiSe\\Models\\Move.cs",
-              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\Models\\Move.cs",
-              "RelativeToolTip": "CovjeceNeLjutiSe\\Models\\Move.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAABEAAAAbAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Klijent\\Program.cs",
+              "RelativeDocumentMoniker": "Klijent\\Program.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Klijent\\Program.cs",
+              "RelativeToolTip": "Klijent\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T15:43:26.332Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Player.cs",
-              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\Models\\Player.cs",
-              "RelativeDocumentMoniker": "CovjeceNeLjutiSe\\Models\\Player.cs",
-              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\Models\\Player.cs",
-              "RelativeToolTip": "CovjeceNeLjutiSe\\Models\\Player.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAuwAwAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T15:38:14.444Z",
+              "WhenOpened": "2026-02-03T16:56:30.561Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Figure.cs",
-              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\Models\\Figure.cs",
-              "RelativeDocumentMoniker": "CovjeceNeLjutiSe\\Models\\Figure.cs",
-              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\Models\\Figure.cs",
-              "RelativeToolTip": "CovjeceNeLjutiSe\\Models\\Figure.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAA5wAoAAAAWAAAAAAAAAA==",
+              "Title": "Move.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\Models\\Move.cs",
+              "RelativeDocumentMoniker": "CovjeceNeLjutiSe\\Models\\Move.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\Models\\Move.cs",
+              "RelativeToolTip": "CovjeceNeLjutiSe\\Models\\Move.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAABEAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T15:38:09.365Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-03T15:43:26.332Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Player.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\Models\\Player.cs",
+              "RelativeDocumentMoniker": "CovjeceNeLjutiSe\\Models\\Player.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\Models\\Player.cs",
+              "RelativeToolTip": "CovjeceNeLjutiSe\\Models\\Player.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAuwAwAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T15:38:14.444Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Figure.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\Models\\Figure.cs",
+              "RelativeDocumentMoniker": "CovjeceNeLjutiSe\\Models\\Figure.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\Models\\Figure.cs",
+              "RelativeToolTip": "CovjeceNeLjutiSe\\Models\\Figure.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T15:38:09.365Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\Server\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\Program.cs",
               "RelativeDocumentMoniker": "Server\\Program.cs",
-              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\Server\\Program.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\Program.cs",
               "RelativeToolTip": "Server\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-03T15:30:29.72Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "GameState.cs",
-              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\Models\\GameState.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\Models\\GameState.cs",
               "RelativeDocumentMoniker": "CovjeceNeLjutiSe\\Models\\GameState.cs",
-              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\Models\\GameState.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\Models\\GameState.cs",
               "RelativeToolTip": "CovjeceNeLjutiSe\\Models\\GameState.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T15:41:24.782Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-03T15:41:24.782Z"
             }
           ]
         }

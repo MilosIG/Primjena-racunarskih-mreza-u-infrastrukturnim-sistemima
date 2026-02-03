@@ -33,11 +33,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\Server\\Server.csproj",
+      "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\Server.csproj",
       "projectName": "Server",
-      "projectPath": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\Server\\Server.csproj",
+      "projectPath": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\Server.csproj",
       "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\Server\\obj\\",
+      "outputPath": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\Server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -59,8 +59,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj": {
-              "projectPath": "C:\\Users\\Lenovo\\Desktop\\Projekat\\Projekat\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj"
+            "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj": {
+              "projectPath": "C:\\Users\\Lenovo\\Documents\\GitHub\\Primjena-racunarskih-mreza-u-infrastrukturnim-sistemima\\CovjeceNeLjutiSe\\CovjeceNeLjutiSe.csproj"
             }
           }
         }

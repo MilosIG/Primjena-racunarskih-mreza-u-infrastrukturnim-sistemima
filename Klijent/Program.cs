@@ -1,5 +1,15 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using CovjeceNeLjutiSe.Models;
+using System;
 
-Console.WriteLine("Hello, World!");
+namespace Client
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Klijent pokrenut");
+            Console.ReadLine();
+        }
+    }
+}
