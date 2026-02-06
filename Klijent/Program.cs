@@ -5,6 +5,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections.Generic;
 
+using CovjeceNeLjutiSe.Models;
+using System.Text.Json;
+
 namespace Client
 {
     internal class Program
@@ -54,6 +57,95 @@ namespace Client
 
                     foreach (var line in lines)
                     {
+                        // ================= STATE =================
+                        if (line.StartsWith("STATE|", StringComparison.OrdinalIgnoreCase))
+                        {
+                            var payload = line.Substring("STATE|".Length);
+
+
+                            if (payload.StartsWith("P1(", StringComparison.OrdinalIgnoreCase))
+                                continue;
+
+                            try
+                            {
+                                var report = JsonSerializer.Deserialize<GameReport>(payload);
+                                if (report == null)
+                                {
+                                    Console.WriteLine("STATE: report je null.");
+                                    continue;
+                                }
+
+                                Console.WriteLine();
+                                Console.WriteLine("========================================");
+                                Console.WriteLine("           STANJE IGRE (STATE)          ");
+                                Console.WriteLine("========================================");
+
+                                // Ko je na potezu
+                                if (report.Players != null &&
+                                    report.Players.Count > 0 &&
+                                    report.CurrentPlayerIndex >= 0 &&
+                                    report.CurrentPlayerIndex < report.Players.Count)
+                                {
+                                    var tp = report.Players[report.CurrentPlayerIndex];
+                                    Console.WriteLine($"NA POTEZU: P{tp.Index} {tp.Name}");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("NA POTEZU: (nepoznato)");
+                                }
+
+                                Console.WriteLine("----------------------------------------");
+
+                                // Ispis igraca i figura
+                                if (report.Players == null || report.Players.Count == 0)
+                                {
+                                    Console.WriteLine("Nema igraca u izvestaju.");
+                                }
+                                else
+                                {
+                                    for (int pi = 0; pi < report.Players.Count; pi++)
+                                    {
+                                        var p = report.Players[pi];
+                                        bool isTurn = (pi == report.CurrentPlayerIndex);
+
+                                        Console.WriteLine(
+                                            $"{(isTurn ? "➡ " : "  ")}P{p.Index} {p.Name} (ID={p.Id}) | Start={p.StartPosition} | Safe={p.SafeHouse}");
+
+                                        if (p.Figures == null || p.Figures.Count == 0)
+                                        {
+                                            Console.WriteLine("     (nema figura)");
+                                            continue;
+                                        }
+
+                                        for (int i = 0; i < p.Figures.Count; i++)
+                                        {
+                                            var f = p.Figures[i];
+
+                                            string status =
+                                                f.IsFinished ? "FINISH" :
+                                                f.IsActive ? "ACTIVE" :
+                                                "HOME";
+
+                                            Console.WriteLine(
+                                                $"     F{i}: {status,-6} | Pos={f.Position,3} | Steps={f.StepsFromStart,3} | Dist={f.DistanceToGoal,3}");
+                                        }
+
+                                        Console.WriteLine("----------------------------------------");
+                                    }
+                                }
+
+                                Console.WriteLine("========================================");
+                                Console.WriteLine();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("STATE: Greska pri deserijalizaciji JSON-a: " + ex.Message);
+                            }
+
+                            continue;
+                        }
+
+                        // ================= OSTALE PORUKE =================
                         Console.WriteLine("SERVER: " + line);
 
                         if (line.StartsWith("WAITACK", StringComparison.OrdinalIgnoreCase))
@@ -92,7 +184,6 @@ namespace Client
 
                             if (string.Equals(ans, "q", StringComparison.OrdinalIgnoreCase))
                             {
-                                // eksplicitno obavesti server
                                 SendLine(sock, "QUIT");
                                 try { sock.Close(); } catch { }
                                 return;
@@ -102,14 +193,13 @@ namespace Client
                             try { sock.Close(); } catch { }
                             break;
                         }
-
                     }
 
                     if (wantRejoin)
                         break;
                 }
 
-                // ide nova igra (while(true) spolja)
+                // ide nova igra
             }
         }
 
@@ -194,10 +284,9 @@ namespace Client
         {
             // RANK|COUNT|N|POS|1|NAME|X|SAFEHOUSE|k|POS|2|...
             var parts = line.Split('|', StringSplitOptions.RemoveEmptyEntries);
-            // minimalno: samo lepo ispisi
             for (int i = 0; i < parts.Length; i += 1)
             {
-                // ispis “u komadu” bez parsiranja do detalja
+                //moze se uraditi lijepi ispis!!!
             }
             Console.WriteLine(line);
         }

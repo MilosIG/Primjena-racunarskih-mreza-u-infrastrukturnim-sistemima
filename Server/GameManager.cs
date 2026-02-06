@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 
 namespace Server
 {
@@ -299,6 +300,36 @@ namespace Server
                 return true;
             }
 
+            // DEACTIVATE
+            if (move.Action == MoveAction.Deactivate)
+            {
+
+                if (!fig.IsActive)
+                {
+                    detail = "Figura nije aktivna. Nema sta da se deaktivira. Potez preskocen.";
+                    AfterValidMove(move.Steps);
+                    return true;
+                }
+
+                if (fig.Position < 0 || fig.Position == HOME_POSITION)
+                {
+                    detail = "Figura je vec u HOME. Potez preskocen.";
+                    AfterValidMove(move.Steps);
+                    return true;
+                }
+
+                // deaktivacija = vrati figuru u HOME i ugasi je
+                fig.IsActive = false;
+                fig.Position = HOME_POSITION;
+                fig.StepsFromStart = 0;
+                fig.DistanceToGoal = 39;   // isto kao kad je neaktivna na startu
+                fig.IsFinished = false;
+
+                detail = $"Figura {move.FigureIndex} deaktivirana (vracena u HOME).";
+                AfterValidMove(move.Steps);
+                return true;
+            }
+
             // MOVE
             if (move.Action == MoveAction.Move)
             {
@@ -370,6 +401,7 @@ namespace Server
             detail = "Nepodrzano.";
             return false;
         }
+
 
         private void AfterValidMove(int steps)
         {
@@ -482,6 +514,19 @@ namespace Server
 
             if (figuresPerPlayer <= 0)
                 throw new ArgumentException("Broj figura mora biti veci od 0.");
+        }
+
+        //Kreiraj izvjestaj
+        public string BuildSerializedGameReport()
+        {
+            var report = new GameReport
+            {
+                Players = State.Players,
+                CurrentPlayerIndex = State.CurrentPlayerIndex,
+                IsFinished = State.IsFinished
+            };
+
+            return JsonSerializer.Serialize(report);
         }
     }
 }

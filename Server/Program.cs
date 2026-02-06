@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
 
 namespace Server
 {
@@ -281,6 +282,24 @@ namespace Server
 
                                 SendLine(c.Sock, $"MOVERESULT|OK|{detail}");
                                 Broadcast(clients, $"STATE|{gm.BuildStateSummary()}");
+
+                                var jsonReport = gm.BuildSerializedGameReport();
+
+                                try
+                                {
+                                    var pretty = JsonSerializer.Serialize(
+                                        JsonSerializer.Deserialize<JsonElement>(jsonReport),
+                                        new JsonSerializerOptions { WriteIndented = true }
+                                    );
+
+                                    Console.WriteLine("STATE|\n" + pretty);
+                                }
+                                catch
+                                {
+                                    Console.WriteLine("STATE|" + jsonReport);
+                                }
+
+                                Broadcast(clients, "STATE|" + jsonReport);
 
                                 if (gameOver || gm.State.IsFinished)
                                 {
