@@ -16,5 +16,7 @@ namespace CovjeceNeLjutiSe.Models
         public int GoalPosition { get; set; }
 
         public List<Figure> Figures { get; set; } = new();
+
+        public int SafeHouse { get; set; } = 0;
     }
 }
