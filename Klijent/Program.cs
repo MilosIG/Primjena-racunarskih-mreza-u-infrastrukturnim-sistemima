@@ -4,9 +4,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Collections.Generic;
-
-using CovjeceNeLjutiSe.Models;
 using System.Text.Json;
+using System.Linq;
+using CovjeceNeLjutiSe.Models;
 
 namespace Client
 {
@@ -23,11 +23,9 @@ namespace Client
 
             while (true)
             {
-                // 1) UDP JOIN
                 var (tcpPort, playerId) = JoinViaUdp(name);
                 Console.WriteLine($"JOIN OK. TCP port={tcpPort}, PlayerId={playerId}");
 
-                // 2) TCP connect
                 var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 sock.Connect(new IPEndPoint(IPAddress.Loopback, tcpPort));
                 sock.Blocking = false;
@@ -37,10 +35,10 @@ namespace Client
                 Console.WriteLine("TCP povezan. Saljem HELLO...");
 
                 var buffer = new StringBuilder();
+                GameReport? lastReport = null;
 
                 bool wantRejoin = false;
 
-                // ===== GAME LOOP =====
                 while (true)
                 {
                     var readList = new List<Socket> { sock };
@@ -57,14 +55,10 @@ namespace Client
 
                     foreach (var line in lines)
                     {
-                        // ================= STATE =================
+                        // ================= STATE (JSON) =================
                         if (line.StartsWith("STATE|", StringComparison.OrdinalIgnoreCase))
                         {
                             var payload = line.Substring("STATE|".Length);
-
-
-                            if (payload.StartsWith("P1(", StringComparison.OrdinalIgnoreCase))
-                                continue;
 
                             try
                             {
@@ -75,67 +69,8 @@ namespace Client
                                     continue;
                                 }
 
-                                Console.WriteLine();
-                                Console.WriteLine("========================================");
-                                Console.WriteLine("           STANJE IGRE (STATE)          ");
-                                Console.WriteLine("========================================");
-
-                                // Ko je na potezu
-                                if (report.Players != null &&
-                                    report.Players.Count > 0 &&
-                                    report.CurrentPlayerIndex >= 0 &&
-                                    report.CurrentPlayerIndex < report.Players.Count)
-                                {
-                                    var tp = report.Players[report.CurrentPlayerIndex];
-                                    Console.WriteLine($"NA POTEZU: P{tp.Index} {tp.Name}");
-                                }
-                                else
-                                {
-                                    Console.WriteLine("NA POTEZU: (nepoznato)");
-                                }
-
-                                Console.WriteLine("----------------------------------------");
-
-                                // Ispis igraca i figura
-                                if (report.Players == null || report.Players.Count == 0)
-                                {
-                                    Console.WriteLine("Nema igraca u izvestaju.");
-                                }
-                                else
-                                {
-                                    for (int pi = 0; pi < report.Players.Count; pi++)
-                                    {
-                                        var p = report.Players[pi];
-                                        bool isTurn = (pi == report.CurrentPlayerIndex);
-
-                                        Console.WriteLine(
-                                            $"{(isTurn ? "➡ " : "  ")}P{p.Index} {p.Name} (ID={p.Id}) | Start={p.StartPosition} | Safe={p.SafeHouse}");
-
-                                        if (p.Figures == null || p.Figures.Count == 0)
-                                        {
-                                            Console.WriteLine("     (nema figura)");
-                                            continue;
-                                        }
-
-                                        for (int i = 0; i < p.Figures.Count; i++)
-                                        {
-                                            var f = p.Figures[i];
-
-                                            string status =
-                                                f.IsFinished ? "FINISH" :
-                                                f.IsActive ? "ACTIVE" :
-                                                "HOME";
-
-                                            Console.WriteLine(
-                                                $"     F{i}: {status,-6} | Pos={f.Position,3} | Steps={f.StepsFromStart,3} | Dist={f.DistanceToGoal,3}");
-                                        }
-
-                                        Console.WriteLine("----------------------------------------");
-                                    }
-                                }
-
-                                Console.WriteLine("========================================");
-                                Console.WriteLine();
+                                lastReport = report;
+                                PrintState(report);
                             }
                             catch (Exception ex)
                             {
@@ -145,26 +80,23 @@ namespace Client
                             continue;
                         }
 
-                        // ================= OSTALE PORUKE =================
                         Console.WriteLine("SERVER: " + line);
 
-                        if (line.StartsWith("WAITACK", StringComparison.OrdinalIgnoreCase))
+                        if (line.Equals("WAITACK", StringComparison.OrdinalIgnoreCase))
                         {
                             SendLine(sock, "ACK");
                             Console.WriteLine("JA: ACK");
                             continue;
                         }
 
-                        if (line.StartsWith("YOURTURN", StringComparison.OrdinalIgnoreCase))
+                        if (line.Equals("YOURTURN", StringComparison.OrdinalIgnoreCase))
                         {
                             Console.WriteLine("Na potezu si. ENTER za bacanje kocke...");
                             Console.ReadLine();
 
                             int dice = Rng.Next(1, 7);
-                            var action = (dice == 6) ? "Activate" : "Move";
-                            int figureIndex = 0;
+                            var move = BuildAutoMove(lastReport, playerId, dice);
 
-                            var move = $"MOVE|{playerId}|{figureIndex}|{dice}|{action}";
                             SendLine(sock, move);
                             Console.WriteLine("JA: " + move);
                             continue;
@@ -172,7 +104,6 @@ namespace Client
 
                         if (line.StartsWith("RANK|", StringComparison.OrdinalIgnoreCase))
                         {
-                            Console.WriteLine("=== RANG LISTA ===");
                             PrintRank(line);
                             continue;
                         }
@@ -198,9 +129,114 @@ namespace Client
                     if (wantRejoin)
                         break;
                 }
-
-                // ide nova igra
             }
+        }
+
+        private static void PrintState(GameReport report)
+        {
+            Console.WriteLine();
+            Console.WriteLine("========================================");
+            Console.WriteLine("           STANJE IGRE (STATE)          ");
+            Console.WriteLine("========================================");
+
+            if (report.Players != null &&
+                report.Players.Count > 0 &&
+                report.CurrentPlayerIndex >= 0 &&
+                report.CurrentPlayerIndex < report.Players.Count)
+            {
+                var tp = report.Players[report.CurrentPlayerIndex];
+                Console.WriteLine($"NA POTEZU: P{tp.Index} {tp.Name}");
+            }
+            else
+            {
+                Console.WriteLine("NA POTEZU: (nepoznato)");
+            }
+
+            Console.WriteLine("----------------------------------------");
+
+            if (report.Players == null || report.Players.Count == 0)
+            {
+                Console.WriteLine("Nema igraca u izvestaju.");
+            }
+            else
+            {
+                for (int pi = 0; pi < report.Players.Count; pi++)
+                {
+                    var p = report.Players[pi];
+                    bool isTurn = (pi == report.CurrentPlayerIndex);
+
+                    Console.WriteLine(
+                        $"{(isTurn ? "➡ " : "  ")}P{p.Index} {p.Name} (ID={p.Id}) | Start={p.StartPosition} | Safe={p.SafeHouse}");
+
+                    if (p.Figures == null || p.Figures.Count == 0)
+                    {
+                        Console.WriteLine("     (nema figura)");
+                        continue;
+                    }
+
+                    for (int i = 0; i < p.Figures.Count; i++)
+                    {
+                        var f = p.Figures[i];
+
+                        string status =
+                            f.IsFinished ? "FINISH" :
+                            f.IsActive ? "ACTIVE" :
+                            "HOME";
+
+                        Console.WriteLine(
+                            $"     F{i}: {status,-6} | Pos={f.Position,3} | Steps={f.StepsFromStart,3} | Dist={f.DistanceToGoal,3}");
+                    }
+
+                    Console.WriteLine("----------------------------------------");
+                }
+            }
+
+            Console.WriteLine("========================================");
+            Console.WriteLine();
+        }
+
+        private static string BuildAutoMove(GameReport? lastReport, int playerId, int dice)
+        {
+            var me = lastReport?.Players?.FirstOrDefault(p => p.Id == playerId);
+
+            int FindHomeIndex()
+            {
+                if (me?.Figures == null) return -1;
+                return me.Figures.FindIndex(f => !f.IsFinished && f.Position < 0);
+            }
+
+            int FindActiveIndex()
+            {
+                if (me?.Figures == null) return -1;
+                return me.Figures.FindIndex(f => f.IsActive && !f.IsFinished && f.Position >= 0 && f.Position < 39);
+            }
+
+            int figureIndex = 0;
+            string action;
+
+            if (dice == 6)
+            {
+                int idxHome = FindHomeIndex();
+                if (idxHome >= 0)
+                {
+                    figureIndex = idxHome;
+                    action = "Activate";
+                }
+                else
+                {
+                    int idxActive = FindActiveIndex();
+                    figureIndex = (idxActive >= 0) ? idxActive : 0;
+                    action = "Move";
+                }
+            }
+            else
+            {
+                int idxActive = FindActiveIndex();
+                figureIndex = (idxActive >= 0) ? idxActive : 0;
+                action = "Move";
+            }
+
+            return $"MOVE|{playerId}|{figureIndex}|{dice}|{action}";
         }
 
         private static (int tcpPort, int playerId) JoinViaUdp(string name)
@@ -282,13 +318,47 @@ namespace Client
 
         private static void PrintRank(string line)
         {
-            // RANK|COUNT|N|POS|1|NAME|X|SAFEHOUSE|k|POS|2|...
+            // Format: RANK|COUNT|N|POS|1|NAME|X|SAFEHOUSE|k|POS|2|NAME|Y|SAFEHOUSE|m|...
             var parts = line.Split('|', StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < parts.Length; i += 1)
+
+            if (parts.Length < 3 || !parts[0].Equals("RANK", StringComparison.OrdinalIgnoreCase))
             {
-                //moze se uraditi lijepi ispis!!!
+                Console.WriteLine(line);
+                return;
             }
-            Console.WriteLine(line);
+
+            int count = 0;
+            if (parts[1].Equals("COUNT", StringComparison.OrdinalIgnoreCase))
+                int.TryParse(parts[2], out count);
+
+            Console.WriteLine("=== RANG LISTA ===");
+            Console.WriteLine($"Ukupno igraca: {count}");
+
+            int i = 3;
+            while (i < parts.Length)
+            {
+                // POS|p|NAME|n|SAFEHOUSE|s
+                if (i + 5 < parts.Length &&
+                    parts[i].Equals("POS", StringComparison.OrdinalIgnoreCase) &&
+                    parts[i + 2].Equals("NAME", StringComparison.OrdinalIgnoreCase) &&
+                    parts[i + 4].Equals("SAFEHOUSE", StringComparison.OrdinalIgnoreCase))
+                {
+                    string posStr = parts[i + 1];
+                    string name = parts[i + 3];
+                    string safeStr = parts[i + 5];
+
+                    Console.WriteLine($"{posStr}) {name} - SafeHouse: {safeStr}");
+                    i += 6;
+                }
+                else
+                {
+                    // ako format odstupa
+                    Console.WriteLine(line);
+                    return;
+                }
+            }
         }
     }
 }
+
+

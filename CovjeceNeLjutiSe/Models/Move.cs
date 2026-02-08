@@ -10,7 +10,7 @@ namespace CovjeceNeLjutiSe.Models
     {
         Activate,
         Move,
-        Deactivate   // uklanjanje figure
+        Deactivate
     }
 
     public class Move

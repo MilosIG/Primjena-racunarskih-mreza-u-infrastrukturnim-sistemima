@@ -10,6 +10,7 @@ namespace Server
     internal class GameManager
     {
         public const int HOME_POSITION = -1;
+        public const int FINISH_POSITION = 39;
 
         public GameState State { get; private set; } = new GameState();
 
@@ -25,7 +26,7 @@ namespace Server
         public int? CurrentTurnPlayerId { get; private set; } = null;
 
         // ======================================================
-        // 1. CreateGame – inicijalizacija tj reset igre
+        // Game init/reset
         // ======================================================
         public void CreateGame(int boardSize, int maxPlayers, int figuresPerPlayer)
         {
@@ -55,11 +56,10 @@ namespace Server
         }
 
         // ======================================================
-        // 2. RegisterPlayer – dodavanje igraca
+        // Register player
         // ======================================================
         public Player RegisterPlayer(string name)
         {
-            //Provjeri da li je igra inicijalizovana
             EnsureGameCreated();
 
             if (string.IsNullOrWhiteSpace(name))
@@ -72,16 +72,12 @@ namespace Server
             {
                 Id = _nextPlayerId++,
                 Name = name.Trim(),
-                Index = State.Players.Count + 1, // 1..N
-                StartPosition = 0,               // dodeljuje se u AssignStartPositions
-                GoalPosition = 0,
+                Index = State.Players.Count + 1,
+                StartPosition = 0,
+                SafeHouse = 0,
                 Figures = new List<Figure>()
             };
 
-            // Ako Player nema SafeHouse u modelu, dodaj ga tamo.
-            player.SafeHouse = 0;
-
-            // inicijalizacija figura (sve u bazi, neaktivne)
             for (int i = 0; i < State.FiguresPerPlayer; i++)
             {
                 player.Figures.Add(new Figure
@@ -89,7 +85,7 @@ namespace Server
                     IsActive = false,
                     Position = HOME_POSITION,
                     StepsFromStart = 0,
-                    DistanceToGoal = 0,
+                    DistanceToGoal = FINISH_POSITION,
                     IsFinished = false
                 });
             }
@@ -99,19 +95,19 @@ namespace Server
         }
 
         // ======================================================
-        // 3. AssignStartPositions – raspodjela start polja (offset 0,10,20,30)
+        // Start positions (0,10,20,30 for 40)
         // ======================================================
         public void AssignStartPositions()
         {
             EnsureGameCreated();
 
-            int step = State.BoardSize / 4; // za 40 => 10
+            int step = State.BoardSize / 4;
 
             for (int i = 0; i < State.Players.Count; i++)
             {
                 var player = State.Players[i];
                 player.StartPosition = i * step;
-                player.GoalPosition = player.StartPosition;
+                SyncSafeHouse(player);
             }
 
             State.CurrentPlayerIndex = 0;
@@ -120,16 +116,13 @@ namespace Server
             ResetTurnRuntime();
 
             if (State.Players.Count > 0)
-                CurrentTurnPlayerId = State.Players[State.CurrentPlayerIndex].Id;
+                CurrentTurnPlayerId = State.Players[0].Id;
         }
 
         // ======================================================
-        // TURN CONTROL
+        // Turn control
         // ======================================================
-        public void MarkYourTurnSent()
-        {
-            AwaitingMove = true;
-        }
+        public void MarkYourTurnSent() => AwaitingMove = true;
 
         public bool CanAcceptMove(Move move, int? fromPlayerId, out string err)
         {
@@ -185,8 +178,15 @@ namespace Server
             CurrentTurnPlayerId = State.Players[State.CurrentPlayerIndex].Id;
         }
 
+        private void AfterValidMove(int steps)
+        {
+            AwaitingMove = false;
+            LastSteps = steps;
+            AwaitingAck = true;
+        }
+
         // ======================================================
-        // PROTOCOL PARSING
+        // Protocol parsing
         // ======================================================
         public static bool TryParseJoin(string msg, out string name, out string err)
         {
@@ -235,7 +235,7 @@ namespace Server
             if (!int.TryParse(parts[1], out int pid)) { err = "playerId nije broj"; return false; }
             if (!int.TryParse(parts[2], out int fig)) { err = "figureIndex nije broj"; return false; }
             if (!int.TryParse(parts[3], out int steps)) { err = "steps nije broj"; return false; }
-            if (!Enum.TryParse<MoveAction>(parts[4], true, out var action)) { err = "action"; return false; }
+            if (!Enum.TryParse(parts[4], true, out MoveAction action)) { err = "action"; return false; }
 
             move.PlayerId = pid;
             move.FigureIndex = fig;
@@ -245,9 +245,7 @@ namespace Server
         }
 
         // ======================================================
-        // GAME RULES: SafeHouse + jedenje (abs mapping)
-        // Lokalno: 0..39 za svakog igraca
-        // Apsolutno polje: (StartOffset + local) % 40
+        // Rules: SafeHouse + eating + fallback
         // ======================================================
         public bool ApplyMoveWithSafeHouseAndEating(Move move, out string detail, out bool gameOver)
         {
@@ -264,6 +262,14 @@ namespace Server
             }
 
             var fig = player.Figures[move.FigureIndex];
+
+            // FINISH figura ne ucestvuje vise
+            if (fig.IsFinished)
+            {
+                detail = "Figura je vec u SAFE HOUSE (EXIT). Ne moze vise u igru. Potez preskocen.";
+                AfterValidMove(move.Steps);
+                return true;
+            }
 
             // ACTIVATE
             if (move.Action == MoveAction.Activate)
@@ -283,15 +289,16 @@ namespace Server
                 }
 
                 fig.IsActive = true;
-                fig.Position = 0;            // lokalni start
+                fig.Position = 0;
                 fig.StepsFromStart = 0;
-                fig.DistanceToGoal = 39;
+                fig.DistanceToGoal = FINISH_POSITION;
                 fig.IsFinished = false;
 
                 int abs = GetAbsolutePos(player, fig.Position);
-
-                // jedenje na startu
                 var eaten = EatOpponentsOnAbsolute(player, abs);
+
+                SyncSafeHouse(player);
+
                 detail = eaten.Count > 0
                     ? $"Aktivirana figura {move.FigureIndex} (ABS={abs}). Pojedeno: {string.Join(",", eaten)}."
                     : $"Aktivirana figura {move.FigureIndex} (ABS={abs}).";
@@ -300,30 +307,23 @@ namespace Server
                 return true;
             }
 
-            // DEACTIVATE
+            // DEACTIVATE (nije obavezno u klijentu, ali ostavljeno)
             if (move.Action == MoveAction.Deactivate)
             {
-
-                if (!fig.IsActive)
+                if (!fig.IsActive || fig.Position < 0)
                 {
-                    detail = "Figura nije aktivna. Nema sta da se deaktivira. Potez preskocen.";
+                    detail = "Figura nije aktivna. Potez preskocen.";
                     AfterValidMove(move.Steps);
                     return true;
                 }
 
-                if (fig.Position < 0 || fig.Position == HOME_POSITION)
-                {
-                    detail = "Figura je vec u HOME. Potez preskocen.";
-                    AfterValidMove(move.Steps);
-                    return true;
-                }
-
-                // deaktivacija = vrati figuru u HOME i ugasi je
                 fig.IsActive = false;
                 fig.Position = HOME_POSITION;
                 fig.StepsFromStart = 0;
-                fig.DistanceToGoal = 39;   // isto kao kad je neaktivna na startu
+                fig.DistanceToGoal = FINISH_POSITION;
                 fig.IsFinished = false;
+
+                SyncSafeHouse(player);
 
                 detail = $"Figura {move.FigureIndex} deaktivirana (vracena u HOME).";
                 AfterValidMove(move.Steps);
@@ -333,50 +333,53 @@ namespace Server
             // MOVE
             if (move.Action == MoveAction.Move)
             {
-                if (!fig.IsActive)
+                if (!IsMovableCandidate(fig))
                 {
                     detail = "Figura nije aktivna. Potez preskocen.";
                     AfterValidMove(move.Steps);
                     return true;
                 }
 
-                if (fig.Position < 0)
+                // fallback: ako izabrana ne moze (prelazi 39), probaj sledecu aktivnu koja moze
+                if (!CanMoveFigure(fig, move.Steps))
                 {
-                    detail = "Figura je u HOME. Potez preskocen.";
-                    AfterValidMove(move.Steps);
-                    return true;
+                    int fb = FindFallbackMovableActiveFigureIndex(player, move.Steps, move.FigureIndex);
+                    if (fb >= 0)
+                    {
+                        fig = player.Figures[fb];
+                        detail = $"Prva figura nije mogla (prelazi 39). Prebacujem potez na figuru {fb}. ";
+                    }
+                    else
+                    {
+                        detail = "Nijedna aktivna figura ne moze da se pomeri za dati broj (prelazi 39). Potez preskocen.";
+                        AfterValidMove(move.Steps);
+                        return true;
+                    }
                 }
 
                 int nextLocal = fig.Position + move.Steps;
 
-                if (nextLocal > 39)
+                // FINISH/EXIT
+                if (nextLocal == FINISH_POSITION)
                 {
-                    detail = "Preslo bi 39. Potez preskocen.";
-                    AfterValidMove(move.Steps);
-                    return true;
-                }
-
-                if (nextLocal == 39)
-                {
-                    player.SafeHouse++;
-
-                    // figura ide HOME i postaje neaktivna
+                    fig.Position = FINISH_POSITION;
                     fig.IsActive = false;
-                    fig.Position = HOME_POSITION;
-                    fig.StepsFromStart = 0;
+                    fig.IsFinished = true;
+                    fig.StepsFromStart = FINISH_POSITION;
                     fig.DistanceToGoal = 0;
-                    fig.IsFinished = false;
 
-                    if (player.SafeHouse >= 4)
+                    SyncSafeHouse(player);
+
+                    if (player.SafeHouse >= State.FiguresPerPlayer)
                     {
                         State.IsFinished = true;
                         gameOver = true;
-                        detail = $"{player.Name} pobedjuje! (SafeHouse={player.SafeHouse})";
+                        detail += $"{player.Name} pobedjuje! (Sve figure su u SAFE HOUSE: {player.SafeHouse}/{State.FiguresPerPlayer})";
                         AfterValidMove(move.Steps);
                         return true;
                     }
 
-                    detail = $"Tacno 39 => SafeHouse={player.SafeHouse}. Figura vracena u HOME.";
+                    detail += $"Figura je usla u SAFE HOUSE! (SafeHouse={player.SafeHouse}/{State.FiguresPerPlayer})";
                     AfterValidMove(move.Steps);
                     return true;
                 }
@@ -384,15 +387,16 @@ namespace Server
                 // normalno pomeranje 0..38
                 fig.Position = nextLocal;
                 fig.StepsFromStart += move.Steps;
-                fig.DistanceToGoal = 39 - fig.Position;
+                fig.DistanceToGoal = FINISH_POSITION - fig.Position;
 
                 int moverAbs = GetAbsolutePos(player, fig.Position);
-
                 var eaten2 = EatOpponentsOnAbsolute(player, moverAbs);
 
-                detail = eaten2.Count > 0
-                    ? $"Pomjerena figura {move.FigureIndex} na LOCAL={fig.Position} (ABS={moverAbs}). Pojedeno: {string.Join(",", eaten2)}."
-                    : $"Pomjerena figura {move.FigureIndex} na LOCAL={fig.Position} (ABS={moverAbs}).";
+                SyncSafeHouse(player);
+
+                detail += eaten2.Count > 0
+                    ? $"Pomjerena figura na LOCAL={fig.Position} (ABS={moverAbs}). Pojedeno: {string.Join(",", eaten2)}."
+                    : $"Pomjerena figura na LOCAL={fig.Position} (ABS={moverAbs}).";
 
                 AfterValidMove(move.Steps);
                 return true;
@@ -402,19 +406,34 @@ namespace Server
             return false;
         }
 
+        // ===================== Movement helpers =====================
 
-        private void AfterValidMove(int steps)
+        private static bool IsMovableCandidate(Figure f)
         {
-            AwaitingMove = false;
-            LastSteps = steps;
-            AwaitingAck = true;
+            return f.IsActive && !f.IsFinished && f.Position >= 0 && f.Position < FINISH_POSITION;
         }
 
-        private int GetAbsolutePos(Player player, int localPos)
+        private static bool CanMoveFigure(Figure f, int steps)
         {
-            if (localPos < 0) return -1;
-            return (player.StartPosition + localPos) % State.BoardSize;
+            return IsMovableCandidate(f) && (f.Position + steps <= FINISH_POSITION);
         }
+
+        private int FindFallbackMovableActiveFigureIndex(Player player, int steps, int excludedIndex)
+        {
+            int n = player.Figures.Count;
+            if (n == 0) return -1;
+
+            for (int offset = 1; offset < n; offset++)
+            {
+                int idx = (excludedIndex + offset) % n;
+                var f = player.Figures[idx];
+                if (CanMoveFigure(f, steps)) return idx;
+            }
+
+            return -1;
+        }
+
+        // ===================== Eating =====================
 
         private List<string> EatOpponentsOnAbsolute(Player mover, int moverAbs)
         {
@@ -428,9 +447,9 @@ namespace Server
                 for (int i = 0; i < other.Figures.Count; i++)
                 {
                     var f = other.Figures[i];
-                    if (!f.IsActive) continue;
-                    if (f.Position < 0) continue;
-                    if (f.Position == 39) continue; // cilj se resava posebnim pravilom
+
+                    if (f.IsFinished) continue;
+                    if (!IsMovableCandidate(f)) continue;
 
                     int otherAbs = (other.StartPosition + f.Position) % State.BoardSize;
                     if (otherAbs == moverAbs)
@@ -438,9 +457,10 @@ namespace Server
                         f.IsActive = false;
                         f.Position = HOME_POSITION;
                         f.StepsFromStart = 0;
-                        f.DistanceToGoal = 0;
+                        f.DistanceToGoal = FINISH_POSITION;
                         f.IsFinished = false;
 
+                        SyncSafeHouse(other);
                         eaten.Add($"{other.Name}#{i}");
                     }
                 }
@@ -449,26 +469,17 @@ namespace Server
             return eaten;
         }
 
-        // ======================================================
-        // OUTGOING MESSAGES HELPERS
-        // ======================================================
-        public string BuildStateSummary()
+        // ===================== Misc helpers =====================
+
+        private int GetAbsolutePos(Player player, int localPos)
         {
-            var sb = new StringBuilder();
+            if (localPos < 0) return -1;
+            return (player.StartPosition + localPos) % State.BoardSize;
+        }
 
-            for (int i = 0; i < State.Players.Count; i++)
-            {
-                var p = State.Players[i];
-
-                sb.Append($"P{p.Index}(").Append(p.Name).Append(")=");
-                sb.Append(string.Join(",", p.Figures.Select(f => f.Position)));
-                sb.Append($" SH={p.SafeHouse}/4");
-
-                if (i < State.Players.Count - 1) sb.Append("; ");
-            }
-
-            sb.Append($" | TURN=P{State.Players[State.CurrentPlayerIndex].Index}");
-            return sb.ToString();
+        private void SyncSafeHouse(Player player)
+        {
+            player.SafeHouse = player.Figures.Count(f => f.IsFinished);
         }
 
         public List<Player> BuildRanking()
@@ -495,9 +506,20 @@ namespace Server
             return sb.ToString();
         }
 
-        // ======================================================
-        // Validation helpers
-        // ======================================================
+        public string BuildSerializedGameReport()
+        {
+            var report = new GameReport
+            {
+                Players = State.Players,
+                CurrentPlayerIndex = State.CurrentPlayerIndex,
+                IsFinished = State.IsFinished
+            };
+
+            return JsonSerializer.Serialize(report);
+        }
+
+        // ===================== Validation =====================
+
         private void EnsureGameCreated()
         {
             if (State.BoardSize <= 0)
@@ -515,18 +537,9 @@ namespace Server
             if (figuresPerPlayer <= 0)
                 throw new ArgumentException("Broj figura mora biti veci od 0.");
         }
-
-        //Kreiraj izvjestaj
-        public string BuildSerializedGameReport()
-        {
-            var report = new GameReport
-            {
-                Players = State.Players,
-                CurrentPlayerIndex = State.CurrentPlayerIndex,
-                IsFinished = State.IsFinished
-            };
-
-            return JsonSerializer.Serialize(report);
-        }
     }
 }
+
+
+
+

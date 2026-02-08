@@ -1,5 +1,4 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using CovjeceNeLjutiSe.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +37,7 @@ namespace Server
 
         static void Main(string[] args)
         {
-            Console.WriteLine("SERVER pokrenut (MULTIPLEX + CLEAN).");
+            Console.WriteLine("SERVER pokrenut (MULTIPLEX).");
 
             using var udp = new UdpClient(UdpJoinPort);
             udp.Client.Blocking = false;
@@ -58,12 +57,10 @@ namespace Server
 
             DateTime lastActivityUtc = DateTime.UtcNow;
 
-            // Za "q" gasenje
             var quitPlayers = new HashSet<int>();
 
             while (true)
             {
-                // ===== NEW MATCH =====
                 var gm = new GameManager();
                 gm.CreateGame(boardSize: 40, maxPlayers: 4, figuresPerPlayer: 4);
 
@@ -82,7 +79,7 @@ namespace Server
                 else
                 {
                     seatsToFill = expectedSeats!.Value;
-                    Console.WriteLine($"[NEW GAME] Cekam da se prijavi ukupno {seatsToFill} igraca (popunjavanje mesta)...");
+                    Console.WriteLine($"[NEW GAME] Cekam da se prijavi ukupno {seatsToFill} igraca...");
                     lastActivityUtc = DateTime.UtcNow;
                 }
 
@@ -106,22 +103,10 @@ namespace Server
                                 continue;
                             }
 
-                            // limit seats
-                            if (firstMatch)
+                            if (gm.State.Players.Count >= seatsToFill)
                             {
-                                if (gm.State.Players.Count >= 4)
-                                {
-                                    SendUdp(udp, remote, "ERROR|Igra je vec popunjena.");
-                                    continue;
-                                }
-                            }
-                            else
-                            {
-                                if (gm.State.Players.Count >= seatsToFill)
-                                {
-                                    SendUdp(udp, remote, "ERROR|Igra je vec popunjena.");
-                                    continue;
-                                }
+                                SendUdp(udp, remote, "ERROR|Igra je vec popunjena.");
+                                continue;
                             }
 
                             try
@@ -158,15 +143,14 @@ namespace Server
                                 Console.WriteLine($"Popunjena mesta: {gm.State.Players.Count}/{seatsToFill}. Igra krece.");
                                 gm.AssignStartPositions();
                             }
-                        }
 
-                        // posle gameover: ne gasi odmah, nego kad nema aktivnosti
-                        if (!firstMatch && joinPhase && clients.Count == 0 && gm.State.Players.Count == 0)
-                        {
-                            if (DateTime.UtcNow - lastActivityUtc > RejoinIdleTimeout)
+                            if (joinPhase && clients.Count == 0 && gm.State.Players.Count == 0)
                             {
-                                Console.WriteLine("Nema aktivnosti posle kraja igre. Server se gasi.");
-                                goto SERVER_END;
+                                if (DateTime.UtcNow - lastActivityUtc > RejoinIdleTimeout)
+                                {
+                                    Console.WriteLine("Nema aktivnosti posle kraja igre. Server se gasi.");
+                                    goto SERVER_END;
+                                }
                             }
                         }
                     }
@@ -257,7 +241,7 @@ namespace Server
                             }
 
                             // MOVE
-                            if (GameManager.TryParseMove(line, out var move, out var parseErr))
+                            if (GameManager.TryParseMove(line, out var move, out _))
                             {
                                 if (!gameStarted)
                                 {
@@ -281,10 +265,12 @@ namespace Server
                                 }
 
                                 SendLine(c.Sock, $"MOVERESULT|OK|{detail}");
-                                Broadcast(clients, $"STATE|{gm.BuildStateSummary()}");
 
+                                // samo JSON state (bez tekstualnog summary)
                                 var jsonReport = gm.BuildSerializedGameReport();
+                                Broadcast(clients, "STATE|" + jsonReport);
 
+                                // ===== SERVER LOG: ispis izvestaja (pretty JSON) =====
                                 try
                                 {
                                     var pretty = JsonSerializer.Serialize(
@@ -292,14 +278,13 @@ namespace Server
                                         new JsonSerializerOptions { WriteIndented = true }
                                     );
 
-                                    Console.WriteLine("STATE|\n" + pretty);
+                                    Console.WriteLine("STATE|");
+                                    Console.WriteLine(pretty);
                                 }
                                 catch
                                 {
                                     Console.WriteLine("STATE|" + jsonReport);
                                 }
-
-                                Broadcast(clients, "STATE|" + jsonReport);
 
                                 if (gameOver || gm.State.IsFinished)
                                 {
@@ -349,11 +334,8 @@ namespace Server
                             }
 
                             gameStarted = true;
-
-                            // prvi potez
                             SendYourTurnToCurrent(gm, clients);
-
-                            Console.WriteLine("Igra pocinje (CLEAN).");
+                            Console.WriteLine("Igra pocinje.");
                         }
                     }
                 }
@@ -375,11 +357,7 @@ namespace Server
             if (!gm.CurrentTurnPlayerId.HasValue) return;
             int pid = gm.CurrentTurnPlayerId.Value;
 
-            ClientConn? conn = null;
-            foreach (var cc in clients)
-            {
-                if (cc.PlayerId == pid) { conn = cc; break; }
-            }
+            var conn = clients.FirstOrDefault(cc => cc.PlayerId == pid);
             if (conn == null) return;
 
             SendLine(conn.Sock, "YOURTURN");
@@ -449,3 +427,5 @@ namespace Server
         }
     }
 }
+
+
